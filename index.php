@@ -7,6 +7,7 @@
     </head>
     <body>
         <textarea rows="10" cols="45" name="message"></textarea>
+        <a id="send-post" href="/photo.php">Загрузить фото</a>
         <a id="send-post" href="#">Запостить на стену</a>
     </body>
 </html>

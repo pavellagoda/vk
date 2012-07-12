@@ -1,4 +1,5 @@
 $(document).ready(function() {
+    var app_id = 3033190;
     $('a#send-post').click(function(){
         var text = $('textarea[name="message"]').val();
         postMessage(text)
@@ -30,18 +31,43 @@ $(document).ready(function() {
             apiId: 3031984
         });
         
-        VK.Api.call('photos.getUploadServer', {'aid':150802604}, function(data){
-            console.log(data)
-        })
-        
-//        VK.api('photos.createAlbum',{
-//            title: 'Море 2012'
-//        }, function(data) {
-//            if (data.response) {
-//                console.log(data.response);
-//            } else {
-//                alert('Error: ' + data.error.error_code + ' ' + data.error.error_msg);
-//            }
-//        });
+        VK.callMethod("showSettingsBox", 4);
+ 
+        // когда пользователь изменяет настройки приложений
+        VK.addCallback("onSettingsChanged", onSettingsChanged);
+ 
+        function onSettingsChanged(settings) {
+            var albumid = 159517308
+            VK.api('photos.getUploadServer',{
+                aid:albumid
+            }, function(data){ 
+                if (data.response)  
+                { 
+                    var filename = $('input[type="file"]').val().replace(/.+[\\\/]/, "");
+                    $.post("/upload.php",{
+                        upsrv:data.response.upload_url,
+                        upsl:'1.jpg'
+                    },function(datas){ 
+                        console.log(datas);
+                        datas = JSON.parse(datas); 
+                        if (datas.server) 
+                        { 
+                            //подтверждаем загрузку 
+                            VK.api('photos.save',{
+                                aid: datas.aid, 
+                                server: datas.server, 
+                                photos_list: datas.photos_list, 
+                                hash: datas.hash
+                            }, function(dataf){ 
+                            }); 
+                        } 
+                    }); 
+                }  
+                else  
+                { 
+                //Код обработки ошибок для photos.getUploadServer 
+                } 
+            });
+        }
     }
 })
