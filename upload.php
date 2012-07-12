@@ -8,12 +8,10 @@ if (isset($_POST["upsrv"]) && (isset($_POST["upsl"]))) {
     curl_setopt($ch, CURLOPT_HEADER, 0);
     curl_setopt($ch, CURLOPT_VERBOSE, 0);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-//    curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/4.0 (compatible;)");
-    curl_setopt($ch, CURLOPT_URL, $_POST["upsrv"]);
     curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_URL, $_POST["upsrv"]);
     $post = array(
-        "file1" => $_SERVER['DOCUMENT_ROOT'].'/upload/'.$_POST["upsl"],
-        "file2" => $_SERVER['DOCUMENT_ROOT'].'/upload/'.$_POST["upsl"],
+        "file1" => '@'.$_SERVER['DOCUMENT_ROOT'].'/upload/'.$_POST["upsl"],
     );
     curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
     $response = curl_exec($ch);

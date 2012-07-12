@@ -7,7 +7,33 @@
         <script src="/js/global.js"></script>
     </head>
     <body>
-        <input type="file" value=""/>
+        <?php
+        $filename = 0;
+        $fileerror = 0;
+        if ($_FILES) {
+            $size = $_FILES['photo']['size'];
+            $allowedSize = 2 * 1024 * 1024;
+            $allowedTypes = array('image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/bmp');
+            if (!in_array($_FILES['photo']['type'], $allowedTypes)) {
+                $fileerror = 'Вы загрузили недопустимый тип файла!';
+            } else if ($size > $allowedSize) {
+                $fileerror = 'Вы загрузили слишком большой файл!';
+            } else {
+                move_uploaded_file($_FILES['photo']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . '/upload/' . $_FILES['photo']['name']);
+                $filename = $_FILES['photo']['name'];
+            }
+        }
+        ?>
+        <form method="post" action="#" enctype="multipart/form-data" id="form">
+            <input type="file" name="photo"/>
+            <input type="hidden" name="filename" value="<?php echo $filename ?>"/>
+            <input type="hidden" name="fileerror" value="<?php echo $fileerror ?>"/>
+        </form>
         <a id="send-photo" href="#">Загрузить фотографию</a>
+<?php if ($_FILES): ?>
+            <script>
+                uploadPhoto();
+            </script>
+<?php endif; ?>
     </body>
 </html>
