@@ -12,7 +12,7 @@
         $fileerror = 0;
         if ($_FILES) {
             $size = $_FILES['photo']['size'];
-            $allowedSize = 2 * 1024 * 1024;
+            $allowedSize = 1 * 1024 * 1024;
             $allowedTypes = array('image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/bmp');
             if (!in_array($_FILES['photo']['type'], $allowedTypes)) {
                 $fileerror = 'Вы загрузили недопустимый тип файла!';
