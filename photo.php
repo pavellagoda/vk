@@ -12,12 +12,12 @@
         $fileerror = 0;
         if ($_FILES) {
             $size = $_FILES['photo']['size'];
-            $allowedSize = 1 * 1024 * 1024;
+            $allowedSize = 2 * 1024 * 1024;
             $allowedTypes = array('image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/bmp');
             if (!in_array($_FILES['photo']['type'], $allowedTypes)) {
                 $fileerror = 'Вы загрузили недопустимый тип файла!';
             } else if ($size > $allowedSize) {
-                $fileerror = 'Вы загрузили слишком большой файл!';
+                $fileerror = 'Вы загрузили слишком большой файл! Выберите фал размером не более 2 Мб';
             } else {
                 move_uploaded_file($_FILES['photo']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . '/upload/' . $_FILES['photo']['name']);
                 $filename = $_FILES['photo']['name'];
