@@ -24,9 +24,6 @@ $(document).ready(function() {
         });
         VK.UI.button('login_button');
     }
-    function uploadPhoto() {
-        console.log($('input'))
-    }
 })
 
 function uploadPhoto() {
