@@ -34,7 +34,7 @@ function uploadPhoto() {
             apiId: 3031984
         });
         
-        VK.callMethod("showSettingsBox", 4);
+        VK.callMethod("showSettingsBox", 4+1);
         VK.addCallback("onSettingsChanged", onSettingsChanged);
         function onSettingsChanged(settings) {
             var albumid = 159517308
