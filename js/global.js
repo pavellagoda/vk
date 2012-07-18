@@ -43,35 +43,36 @@ function uploadPhoto() {
         VK.addCallback("onSettingsChanged", onSettingsChanged);
         function onSettingsChanged(settings) {
             VK.api('photos.getAlbums',{}, function(datas){
-                console.log(datas.response[0].aid)
+                
+                var albumid = datas.response[0].aid
+                console.log(albumid)
+                
+                VK.api('photos.getUploadServer',{
+                    aid:albumid
+                }, function(data){ 
+                    if (data.response)  
+                    { 
+                        var filename = $('input[name="filename"]').val();
+                        $.post("/upload.php",{
+                            upsrv:data.response.upload_url,
+                            upsl:filename
+                        },function(datas){ 
+                            datas = JSON.parse(datas); 
+                            if (datas.server) 
+                            { 
+                                VK.api('photos.save',{
+                                    aid: datas.aid, 
+                                    server: datas.server, 
+                                    photos_list: datas.photos_list, 
+                                    hash: datas.hash
+                                }, function(dataf){ 
+                                    alert('Фотография успешно загружена!')
+                                }); 
+                            } 
+                        }); 
+                    }  
+                });
             })
-            var albumid = $('input[name="album"]').val()
-            console.log(albumid)
-            VK.api('photos.getUploadServer',{
-                aid:albumid
-            }, function(data){ 
-                if (data.response)  
-                { 
-                    var filename = $('input[name="filename"]').val();
-                    $.post("/upload.php",{
-                        upsrv:data.response.upload_url,
-                        upsl:filename
-                    },function(datas){ 
-                        datas = JSON.parse(datas); 
-                        if (datas.server) 
-                        { 
-                            VK.api('photos.save',{
-                                aid: datas.aid, 
-                                server: datas.server, 
-                                photos_list: datas.photos_list, 
-                                hash: datas.hash
-                            }, function(dataf){ 
-                                alert('Фотография успешно загружена!')
-                            }); 
-                        } 
-                    }); 
-                }  
-            });
         }
     }
 }
