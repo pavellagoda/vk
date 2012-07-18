@@ -26,7 +26,7 @@
         ?>
         <form method="post" action="#" enctype="multipart/form-data" id="form">
             <input type="file" name="photo"/>
-            <input type="text" name="album-id"/>
+            <input type="text" name="album"/>
             <input type="hidden" name="filename" value="<?php echo $filename ?>"/>
             <input type="hidden" name="fileerror" value="<?php echo $fileerror ?>"/>
         </form>
