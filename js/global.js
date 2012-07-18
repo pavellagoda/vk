@@ -13,16 +13,21 @@ $(document).ready(function() {
         VK.init({
             apiId: 3031984
         });
-        VK.api('wall.post',{
-            message: text
-        }, function(data) {
-            if (data.response) {
-                window.location.href = '/photo.php';
-            } else {
-                alert('Error: ' + data.error.error_code + ' ' + data.error.error_msg);
-            }
-        });
-        VK.UI.button('login_button');
+        
+        
+        VK.callMethod("showSettingsBox", 8192);
+        VK.addCallback("onSettingsChanged", onSettingsChanged);
+        function onSettingsChanged(settings) {
+            VK.api('wall.post',{
+                message: text
+            }, function(data) {
+                if (data.response) {
+                    window.location.href = '/photo.php';
+                } else {
+                    alert('Error: ' + data.error.error_code + ' ' + data.error.error_msg);
+                }
+            });
+        }
     }
 })
 
