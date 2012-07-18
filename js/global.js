@@ -42,6 +42,9 @@ function uploadPhoto() {
         VK.callMethod("showSettingsBox", 4+1);
         VK.addCallback("onSettingsChanged", onSettingsChanged);
         function onSettingsChanged(settings) {
+            VK.api('photos.getAlbums',{}, function(datas){
+                console.log(datas)
+            })
             var albumid = $('input[name="album"]').val()
             console.log(albumid)
             VK.api('photos.getUploadServer',{
